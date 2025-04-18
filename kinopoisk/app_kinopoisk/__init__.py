@@ -1,0 +1,1 @@
+default_app_config = 'app_kinopoisk.apps.AppKinopoiskConfig' #для отображения названия приложения на русском языке
