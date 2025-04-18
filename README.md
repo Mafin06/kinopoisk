@@ -1,2 +1,2 @@
-# kinopoisk
 # Clone of Kinopoisk
+Сайт клон кинопоиска
