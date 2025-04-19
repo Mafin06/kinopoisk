@@ -1,3 +1,103 @@
+/* Основные стили пагинации */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 30px 0;
+    gap: 5px;
+}
+
+.pagination__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    color: #6c757d;
+    background-color: #c7a9ff;
+}
+
+.pagination__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    color: #6c757d; /* Серый цвет для неактивных страниц */
+    transition: all 0.3s ease;
+}
+
+/* Стили для активной страницы */
+.pagination__item.active {
+    background-color: #9155ff; /* Фиолетовый фон */
+}
+
+.pagination__item.active .pagination__link {
+    color: white; /* Белый текст для активной страницы */
+}
+
+/* Стили при наведении на неактивные страницы */
+.pagination__item:not(.active):hover {
+    background-color: rgb(27, 213, 255); /* Светло-серый фон при наведении */
+}
+.pagination__item:not(.active):hover .pagination__link {
+    color: #ffffff; /* Темнее текст при наведении */
+}
+
+/* Стили для многоточия */
+.pagination__item--dots {
+    width: auto;
+    height: auto;
+    background: #ffffff;
+}
+
+.pagination__item--dots .pagination__link {
+    color: #c7a9ff;
+    width: auto;
+    padding: 0 5px;
+}
+
+/* Анимация при наведении */
+.pagination__item:not(.active, .pagination__item--dots) {
+    transform: scale(1);
+    
+}
+
+.pagination__item:not(.active, .pagination__item--dots):hover {
+    transform: scale(1.1);
+}
+
+.pagination__item {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.pagination__item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.pagination__item {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@media (max-width: 576px) {
+    .pagination {
+        flex-wrap: wrap;
+    }
+    .pagination__item {
+        width: 32px;
+        height: 32px;
+    }
+    .pagination__link {
+        font-size: 14px;
+    }
+}
 .rating{
     overflow: hidden;
     vertical-align: bottom;

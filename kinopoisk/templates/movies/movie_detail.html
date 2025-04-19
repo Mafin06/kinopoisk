@@ -150,9 +150,10 @@
                                                style="outline: none; cursor: inherit;">
                                                Ваш комментарий*
                                             </label>
-                                        <textarea class="form-control border" rows="5"
-                                                  id="contactcomment" required="" name="text" ></textarea>
-                                    </div>
+                                        {% comment %} <textarea class="form-control border" rows="5"
+                                                  id="contactcomment" required="" name="text" ></textarea> {% endcomment %}
+                                                {{ form.text }}
+                                                </div>
                                     <div class="d-sm-flex">
                                         <div class="col-sm-6 form-group p-0 editContent"
                                              style="outline: none; cursor: inherit;">
@@ -160,8 +161,9 @@
                                                    style="outline: none; cursor: inherit;">
                                                    Имя
                                                 *</label>
-                                            <input type="text" class="form-control border"
-                                                   id="contactusername" required="" name="name">
+                                            {% comment %} <input type="text" class="form-control border"
+                                                   id="contactusername" required="" name="name"> {% endcomment %}
+                                                   {{ form.name }}
                                         </div>
                                         <div class="col-sm-6 form-group ml-sm-3 editContent"
                                              style="outline: none; cursor: inherit;">
@@ -169,9 +171,11 @@
                                                    style="outline: none; cursor: inherit;">
                                                    Email*
                                                 </label>
-                                            <input type="email" class="form-control border"
-                                                   id="contactemail" required="" name="email">
+                                            {% comment %} <input type="email" class="form-control border"
+                                                   id="contactemail" required="" name="email"> {% endcomment %}
+                                                   {{ form.email }}
                                         </div>
+                                        {{ form.captcha }}
                                     </div>
                                     <button type="submit"
                                             class="mt-3 btn btn-success btn-block py-3"

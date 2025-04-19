@@ -38,9 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_kinopoisk',
-    'ckeditor',
+
+    'django.contrib.sites', #статичные странички
+    'django.contrib.flatpages', #статичные странички
+
+    'app_kinopoisk', #мое приложение
+
+    'ckeditor', #редактор в админпанели 
     'ckeditor_uploader',
+
+    'snowpenguin.django.recaptcha3', #капча от гугла
 ]
 
 MIDDLEWARE = [
@@ -51,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware', #статичные странички
 ]
 
 ROOT_URLCONF = 'kinopoisk.urls'
@@ -129,6 +137,19 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# рекапча от гугла
+
+RECAPTCHA_PUBLIC_KEY="6Le0yx0rAAAAAC75LO9AZThOFoW-yX9OjHSzcJj7"
+RECAPTCHA_PRIVATE_KEY="6Le0yx0rAAAAAG9_vthdNa0JQSgDKJ9dhZPJ5OfX"
+RECAPTCHA_DEFAULT_ACTION="generic"
+RECAPTCHA_SCORE_THRESHOLD=0.5
+
+#статичные странички
+
+SITE_ID = 1
+
+#скедитор
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
@@ -225,3 +246,4 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+SILENCED_SYSTEM_CHECKS = ['ckeditor.W001']

@@ -11,6 +11,46 @@ from .forms import ReviewForm, RatingForm
 
 # Create your views here.
 
+class Search(ListView):
+    """поиск фильмов по названию в поисковой строке"""
+    model = Movie
+    template_name = "movies/movie_list.html"  # Явно указываем путь к шаблону
+    paginate_by = 6
+    context_object_name = 'movie_list'  # Явно задаем имя переменной контекста
+
+    # def get_queryset(self):
+    #     return Movie.objects.filter(title__icontains=self.request.GET.get("q"))
+
+    # def get_queryset(self):
+    #     query = self.request.GET.get('q', '').strip()
+    #     if query:
+    #         # Безопасный поиск без использования iregex
+    #         return Movie.objects.filter(
+    #             title__icontains=query
+    #         ).distinct()
+    #     return Movie.objects.none()
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', '').strip()
+        if query:
+            # Нормализуем запрос - приводим к нижнему регистру
+            normalized_query = query.lower()
+            return Movie.objects.filter(
+                Q(title__icontains=normalized_query) |
+                Q(title__icontains=query)  # Дублируем для надежности
+            ).distinct().order_by('title')
+        return Movie.objects.none()
+    
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super().get_context_data(*args, **kwargs)
+    #     context["q"] = f'q={self.request.GET.get("q")}&'
+    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('q', '')
+        context['q'] = f'q={query}&' if query else ''
+        return context
+        
 class GenreYear:
     """года и жанры - фильтрация фильмов по ним"""
     def get_genres(self):
@@ -25,6 +65,7 @@ class MovieView(GenreYear, ListView):
     model = Movie
     queryset = Movie.objects.filter(draft=False)
     template_name = "movies/movie_list.html"
+    paginate_by = 6
 
     '''def get(self, request): ---------обычное View
         movies = Movie.objects.all()
@@ -42,6 +83,7 @@ class MovieDetailView(GenreYear, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['star_form'] = RatingForm()
+        context['form'] = ReviewForm()
         
         # Получаем текущий рейтинг
         ip = self.get_client_ip()
@@ -92,13 +134,20 @@ class ActorView(GenreYear, View):
         return render(request, self.template_name, context)
     
 class FilterMovieView(GenreYear,ListView):
+    paginate_by = 6
     template_name = 'movies/movie_list.html'
     def get_queryset(self):
         queryset = Movie.objects.filter(
             Q(year__in = self.request.GET.getlist("year")) | 
-            Q(genres__in = self.request.GET.getlist("genre")))
+            Q(genres__in = self.request.GET.getlist("genre"))).distinct()
         return queryset
     
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['year'] = ''.join([f"year={x}&" for x in self.request.GET.getlist("year")])
+        context['genre'] = ''.join([f"genre={x}&" for x in self.request.GET.getlist("genre")])
+        return context
+
 class AddStarRating(View):
     def get_client_ip(self, request):
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
