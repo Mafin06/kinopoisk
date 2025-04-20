@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
 
     'snowpenguin.django.recaptcha3', #капча от гугла
+    'contact',#contact
+    
 ]
 
 MIDDLEWARE = [
@@ -149,6 +151,8 @@ RECAPTCHA_SCORE_THRESHOLD=0.5
 
 SITE_ID = 1
 
+# #для отправки почты
+# LOGIN_REDIRECT_URL = '/'  # Перенаправление после успешной отправки формы
 #скедитор
 
 CKEDITOR_UPLOAD_PATH = "uploads/"

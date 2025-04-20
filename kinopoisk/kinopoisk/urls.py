@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("app_kinopoisk.urls")),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('contact/', include('contact.urls')),  # Контакты
     path('pages/', include('django.contrib.flatpages.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
